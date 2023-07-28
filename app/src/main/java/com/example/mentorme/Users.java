@@ -1,15 +1,23 @@
 package com.example.mentorme;
 
 public class Users {
-    String name,email,password,expertise;
-    public Users(String name,String email,String password,String expertise){
+    String name,email,password,expertise,userID;
+
+    public Users(String name, String email, String password, String expertise, String userID) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.expertise = expertise;
+        this.userID = userID;
     }
     public Users(){
         //empty constructor
+    }
+    public String getUserID() {
+        return userID;
+    }
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
     public String getName() {
         return name;

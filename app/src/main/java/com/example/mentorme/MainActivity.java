@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,24 +28,25 @@ public class MainActivity extends AppCompatActivity {
         mainRecyclerView = findViewById(R.id.main_RecyclerView);
         database = FirebaseDatabase.getInstance();
 
+        mainRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        
         DatabaseReference reference = database.getReference().child("USERS");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                usersArrayList.clear();
                 for(DataSnapshot data:snapshot.getChildren()){
                     Users user = data.getValue(Users.class);
-                    usersArrayList.add(user);
-                }
-                userAdapter.notifyDataSetChanged();
+                    assert user != null;
+                    if(!FirebaseAuth.getInstance().getCurrentUser().getUid().equals(user.getUserID())) usersArrayList.add(user);
+                    }
+                userAdapter = new UserAdapter(MainActivity.this,usersArrayList);
+                mainRecyclerView.setAdapter(userAdapter);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.e("Error",error.getMessage());
             }
         });
-        //setting Recycler View
-        mainRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        userAdapter = new UserAdapter(usersArrayList);
-        mainRecyclerView.setAdapter(userAdapter);
     }
 }

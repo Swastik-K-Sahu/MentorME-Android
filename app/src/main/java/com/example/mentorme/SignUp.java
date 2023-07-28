@@ -67,7 +67,7 @@ public class SignUp extends AppCompatActivity {
                     String uid = task.getResult().getUser().getUid();
                     DatabaseReference reference = database.getReference().child("USERS").child(uid);
 
-                    reference.setValue(new Users(name, email, password, expertise)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    reference.setValue(new Users(name, email, password, expertise,uid)).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
                             Intent intent = new Intent(SignUp.this, Login.class);

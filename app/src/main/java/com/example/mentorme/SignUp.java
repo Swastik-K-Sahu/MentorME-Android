@@ -5,8 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,7 +23,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUp extends AppCompatActivity {
-    EditText nameEt,emailEt,passwordEt,rePasswordEt,expertiseEt;
+    EditText nameEt,emailEt,passwordEt,rePasswordEt;
+    String expertise;
+    Spinner spinner;
     Button createAccBtn,toLoginBtn;
     FirebaseAuth auth;
     FirebaseDatabase database;
@@ -26,6 +33,7 @@ public class SignUp extends AppCompatActivity {
             "[a-zA-Z0-9_+&*-]+)*@" +
             "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
             "A-Z]{2,7}$";
+    String[] domains = {"App Dev","Web Dev","Electronics","Cricket"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,16 +45,30 @@ public class SignUp extends AppCompatActivity {
         emailEt = findViewById(R.id.emailEt);
         passwordEt = findViewById(R.id.passwordEt);
         rePasswordEt = findViewById(R.id.rePasswordEt);
-        expertiseEt = findViewById(R.id.expertiseEt);
+        spinner = findViewById(R.id.spinner);
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
 
+
+        ArrayAdapter<String> ad = new ArrayAdapter<String>(SignUp.this, android.R.layout.simple_spinner_item,domains);
+        ad.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        spinner.setAdapter(ad);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                expertise = adapterView.getItemAtPosition(i).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
         createAccBtn.setOnClickListener(view -> {
             String name = nameEt.getText().toString();
             String email = emailEt.getText().toString();
             String password = passwordEt.getText().toString();
             String rePassword = rePasswordEt.getText().toString();
-            String expertise = expertiseEt.getText().toString();
+
 
             if (name.length() == 0) {
                 nameEt.setError("Name cannot be empty");
@@ -58,15 +80,12 @@ public class SignUp extends AppCompatActivity {
             } else if (!password.equals(rePassword)) {
                 rePasswordEt.setText("");
                 rePasswordEt.setError("Password does not match");
-            } else if (expertise.length() == 0) {
-                expertiseEt.setError("Mandatory field");
             } else {
-
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     String uid = task.getResult().getUser().getUid();
                     DatabaseReference reference = database.getReference().child("USERS").child(uid);
-
+                    Log.d("exp",expertise);
                     reference.setValue(new Users(name, email, password, expertise,uid)).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {

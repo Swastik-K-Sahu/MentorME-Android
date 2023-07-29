@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Explore">
+
+    <TextView
+        android:id="@+id/welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome, "
+        android:textSize="30sp"
+        android:textColor="@color/violet"
+        android:textStyle="bold"
+        android:layout_marginTop="80dp"
+        android:layout_marginStart="50dp"/>
+    <TextView
+        android:id="@+id/explore_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="true"
+        android:textSize="30sp"
+        android:textColor="@color/violet"
+        android:textStyle="bold"
+        android:layout_alignBottom="@id/welcome"
+        android:layout_toRightOf="@id/welcome"/>
+
+    <TextView
+        android:id="@+id/statement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/explore_name"
+        android:layout_marginTop="15dp"
+        android:text="Choose any one of the below domains :"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        android:layout_centerHorizontal="true"/>
+
+
+    <LinearLayout
+        android:id="@+id/ll1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/statement"
+        android:layout_centerHorizontal="true">
+        <Button
+            android:id="@+id/appdev_Btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:text="App Dev"
+            style="@style/Widget.Material3.Button.OutlinedButton"/>
+        <Button
+            android:id="@+id/webdev_Btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Web Dev"
+            style="@style/Widget.Material3.Button.OutlinedButton"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_below="@id/ll1"
+        android:layout_centerHorizontal="true">
+        <Button
+            android:id="@+id/electronics_Btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:text="Electronics"
+            style="@style/Widget.Material3.Button.OutlinedButton"/>
+        <Button
+            android:id="@+id/cricket_Btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cricket"
+            style="@style/Widget.Material3.Button.OutlinedButton"/>
+    </LinearLayout>
+
+
+
+</RelativeLayout>

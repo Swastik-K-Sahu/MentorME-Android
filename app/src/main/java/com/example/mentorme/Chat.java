@@ -33,7 +33,6 @@ public class Chat extends AppCompatActivity {
     CardView sendBtn;
     TextView nameTV;
     EditText inputET;
-    ImageView backBtn;
     FirebaseUser fuser;
     DatabaseReference reference;
     FirebaseDatabase database;
@@ -46,7 +45,6 @@ public class Chat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         getSupportActionBar().hide();
-        backBtn = findViewById(R.id.backBtn);
         sendBtn = findViewById(R.id.sendBtn);
         inputET = findViewById(R.id.inputET);
         nameTV = findViewById(R.id.nameTV);
@@ -80,13 +78,6 @@ public class Chat extends AppCompatActivity {
             }
         });
 
-
-        backBtn.setOnClickListener(view ->{
-            Intent intent = new Intent(this,MainActivity.class);
-            startActivity(intent);
-            finish();
-
-        });
 
     }
     private void sendMessage(String senderUid, String receiverUid, String message){

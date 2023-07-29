@@ -33,7 +33,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             in.putExtra("userID",user.getUserID());
             in.putExtra("userName",user.getName());
             mainActivity.startActivity(in);
-            mainActivity.finish();
         });
     }
     @Override

@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         //finding IDs & getting Instance
         mainRecyclerView = findViewById(R.id.main_RecyclerView);
         database = FirebaseDatabase.getInstance();
-
+        String domain = getIntent().getStringExtra("domain");
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         
         DatabaseReference reference = database.getReference().child("USERS");
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 for(DataSnapshot data:snapshot.getChildren()){
                     Users user = data.getValue(Users.class);
                     assert user != null;
-                    if(!FirebaseAuth.getInstance().getCurrentUser().getUid().equals(user.getUserID())) usersArrayList.add(user);
+                    if((!FirebaseAuth.getInstance().getCurrentUser().getUid().equals(user.getUserID())) && user.getExpertise().equals(domain)) usersArrayList.add(user);
                     }
                 userAdapter = new UserAdapter(MainActivity.this,usersArrayList);
                 mainRecyclerView.setAdapter(userAdapter);

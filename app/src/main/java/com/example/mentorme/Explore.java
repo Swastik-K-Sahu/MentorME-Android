@@ -20,7 +20,6 @@ import com.google.firebase.database.ValueEventListener;
 public class Explore extends AppCompatActivity {
     TextView explorename;
     FirebaseUser fuser;
-    FirebaseDatabase database;
     Button appdevBtn, webdevBtn, electronicsBtn, cricketBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,22 +31,9 @@ public class Explore extends AppCompatActivity {
         electronicsBtn = findViewById(R.id.electronics_Btn);
         cricketBtn = findViewById(R.id.cricket_Btn);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
-        database = FirebaseDatabase.getInstance();
 
-        DatabaseReference reference = database.getReference().child("USERS").child(fuser.getUid());
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Users user = snapshot.getValue(Users.class);
-                String name = user.getName();
-                explorename.setText(name);
-            }
+        explorename.setText(fuser.getDisplayName());
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
         appdevBtn.setOnClickListener(task ->{
             Intent in = new Intent(Explore.this,MainActivity.class);
             in.putExtra("domain","App Dev");

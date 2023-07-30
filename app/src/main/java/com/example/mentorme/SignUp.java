@@ -19,6 +19,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -83,6 +85,11 @@ public class SignUp extends AppCompatActivity {
             } else {
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
+                    //Set Display Name
+                    FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
+                    UserProfileChangeRequest profileUpd = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
+                    fuser.updateProfile(profileUpd);
+                    //Put Info to Database
                     String uid = task.getResult().getUser().getUid();
                     DatabaseReference reference = database.getReference().child("USERS").child(uid);
                     Log.d("exp",expertise);

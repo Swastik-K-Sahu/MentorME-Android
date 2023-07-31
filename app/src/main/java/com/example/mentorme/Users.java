@@ -1,15 +1,17 @@
 package com.example.mentorme;
 
 public class Users {
-    String name,email,password,expertise,userID;
+    String name,email,password,expertise,userID,batch;
 
-    public Users(String name, String email, String password, String expertise, String userID) {
+    public Users(String name, String email, String password, String expertise, String userID, String batch) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.expertise = expertise;
         this.userID = userID;
+        this.batch = batch;
     }
+
     public Users(){
         //empty constructor
     }
@@ -49,5 +51,13 @@ public class Users {
 
     public void setExpertise(String expertise) {
         this.expertise = expertise;
+    }
+
+    public String getBatch() {
+        return batch;
+    }
+
+    public void setBatch(String batch) {
+        this.batch = batch;
     }
 }

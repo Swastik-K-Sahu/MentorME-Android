@@ -25,7 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUp extends AppCompatActivity {
-    EditText nameEt,emailEt,passwordEt,rePasswordEt;
+    EditText nameEt,emailEt,passwordEt,rePasswordEt,batchET;
     String expertise;
     Spinner spinner;
     Button createAccBtn,toLoginBtn;
@@ -47,6 +47,7 @@ public class SignUp extends AppCompatActivity {
         emailEt = findViewById(R.id.emailEt);
         passwordEt = findViewById(R.id.passwordEt);
         rePasswordEt = findViewById(R.id.rePasswordEt);
+        batchET = findViewById(R.id.batchET);
         spinner = findViewById(R.id.spinner);
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -70,7 +71,7 @@ public class SignUp extends AppCompatActivity {
             String email = emailEt.getText().toString();
             String password = passwordEt.getText().toString();
             String rePassword = rePasswordEt.getText().toString();
-
+            String batch = batchET.getText().toString();
 
             if (name.length() == 0) {
                 nameEt.setError("Name cannot be empty");
@@ -82,6 +83,9 @@ public class SignUp extends AppCompatActivity {
             } else if (!password.equals(rePassword)) {
                 rePasswordEt.setText("");
                 rePasswordEt.setError("Password does not match");
+            } else if (batch.length() != 4 || (batch.charAt(0) != '1' && batch.charAt(0) != '2')) {
+                batchET.setError("Enter correct year");
+                batchET.setText("");
             } else {
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -92,8 +96,7 @@ public class SignUp extends AppCompatActivity {
                     //Put Info to Database
                     String uid = task.getResult().getUser().getUid();
                     DatabaseReference reference = database.getReference().child("USERS").child(uid);
-                    Log.d("exp",expertise);
-                    reference.setValue(new Users(name, email, password, expertise,uid)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    reference.setValue(new Users(name, email, password, expertise,uid,batch)).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
                             Intent intent = new Intent(SignUp.this, Login.class);

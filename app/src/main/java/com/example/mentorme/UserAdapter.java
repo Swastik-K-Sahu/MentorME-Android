@@ -26,7 +26,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull UserAdapter.ViewHolder holder, int position) {
         Users user = usersArrayList.get(position);
         holder.contactTV.setText(user.getName());
-        holder.descTV.setText(user.getExpertise());
+        holder.descTV.setText("Batch " + user.getBatch());
 
         holder.itemView.setOnClickListener(view ->{
             Intent in = new Intent(mainActivity, Chat.class);
